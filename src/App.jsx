@@ -1,20 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import ResultsPage from "./pages/ResultsPage";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
+import router from "./app/config/routes.jsx";
+import SearchContextProvider from "./store/search-context.jsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/search",
-    element: <ResultsPage />,
-  },
-]);
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <SearchContextProvider>
+      <RouterProvider router={router} />
+    </SearchContextProvider>
+  );
 }
 
 export default App;

@@ -1,17 +1,18 @@
-import Button from "../components/Button";
-import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
+import centerImage from "../assets/image.png";
 
 export default function Home() {
-  let btnStyle = "r-2 p-4 text-blue-200";
   return (
     <>
-      <Header>
-        <Button className={btnStyle + " bg-green-500"}>Home</Button>
-        <Button className={btnStyle}>Examples</Button>
-        <Button className={btnStyle}>Dorks</Button>
-      </Header>
-      <SearchBar />
+      <section className='mt-48 flex flex-col items-center justify-center'>
+        <img
+          src={centerImage}
+          alt='Logo Search'
+          className='mb-0 w-96 object-contain'
+        />
+
+        <SearchBar />
+      </section>
     </>
   );
 }

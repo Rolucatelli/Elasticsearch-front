@@ -1,35 +1,37 @@
-import { useState } from "react";
-import centerImage from "../assets/image.png";
-import Button from "./Button";
+import { useContext } from "react";
+import { SearchContext } from "../store/search-context";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function SearchBar() {
-  const [searchQuerry, setSearchQuerry] = useState("");
+export default function SearchBar(props) {
+  const { querry, setQuerry } = useContext(SearchContext);
+  const navigate = useNavigate();
 
   function handleClick() {
-    console.log(searchQuerry);
+    console.log(querry);
+    navigate("/search");
   }
 
   return (
-    <section className='mt-48 flex flex-col items-center justify-center'>
-      <img
-        src={centerImage}
-        alt='Imagem centralizada'
-        className='mb-0 w-96 object-contain'
+    <div {...props}>
+      <input
+        className='p-2 h-12 w-sm border-blue-200 border-2 m-2'
+        type='text'
+        value={querry}
+        placeholder='Search...'
+        onChange={(event) => setQuerry(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            handleClick();
+          }
+        }}
       />
-      <div>
-        <input
-          className='p-2 h-12 border-blue-200 border-2 mr-2'
-          type='text'
-          placeholder='Search: ...'
-          onChange={(event) => setSearchQuerry(event.target.value)}
-        />
-        <Button
-          onClick={handleClick}
-          className='bg-green-500 rounded-md h-12 text-gray-50 p-2 ml-2'
-        >
-          Search!
-        </Button>
-      </div>
-    </section>
+
+      <button
+        onClick={handleClick}
+        className='rounded-md mt-5 p-3 text-gray-50 bg-green-500 cursor-pointer'
+      >
+        Search!
+      </button>
+    </div>
   );
 }
