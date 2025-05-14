@@ -9,7 +9,7 @@ export default function ResultsPage() {
       <ul>
         {DUMMY_SEARCHS.map((result) => {
           return (
-            <li>
+            <li key={result.title}>
               <a href={result.url}>
                 <h3>{result.title}</h3>
               </a>
