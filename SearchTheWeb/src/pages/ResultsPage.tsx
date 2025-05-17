@@ -7,9 +7,20 @@ import { useLocation } from "react-router-dom";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+// interface ResultsInterface {
+//   query: string;
+//   results: {
+//     title: string;
+//     url: string;
+//     content: string;
+//     dt_creation: string;
+//     reading_time: number;
+//   }[];
+// }
 interface ResultsInterface {
-  query: string;
-  results: {
+  totalResults: number;
+  page: number;
+  resultsList: {
     title: string;
     url: string;
     content: string;
@@ -20,14 +31,15 @@ interface ResultsInterface {
 
 export default function ResultsPage() {
   const query = useQuery().get("q");
-  const [results, setResults] = useState<ResultsInterface["results"]>([]);
+  const [results, setResults] = useState<ResultsInterface["resultsList"]>([]);
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/v1/search", { q: query })
+      .get(`http://localhost:8080/v1/search?q=${query}&p=1`) // Esse é o backend do Flávio
+      // .get(`http://localhost:5000/api/v1/search?q=${query}`)
       .then((res) => {
         const data = res.data as ResultsInterface; // Cast the response data to your interface
-        setResults(data.results);
+        setResults(data.resultsList);
       })
       .catch((error) => {
         console.error("Error fetching results:", error);
