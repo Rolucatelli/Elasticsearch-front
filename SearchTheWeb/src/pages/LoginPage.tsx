@@ -1,3 +1,11 @@
+import Header from "@/components/Header";
+import LoginForm from "@/components/modals/LoginForm";
+
 export default function LoginPage() {
-  return <h1>My Login Page</h1>;
+  return (
+    <>
+      <Header />
+      <LoginForm />
+    </>
+  );
 }

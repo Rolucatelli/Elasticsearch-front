@@ -1,5 +1,8 @@
 import Header from "@/components/Header";
+import ResultsPagination from "@/components/ResultsPagination";
 import SearchBar from "@/components/SearchBar";
+
+import DUMMY_RESULTS from "@/dummy";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -31,14 +34,15 @@ interface ResultsInterface {
 
 export default function ResultsPage() {
   const query = useQuery().get("q");
+  const page = useQuery().get("p");
   const [results, setResults] = useState<ResultsInterface["resultsList"]>([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/v1/search?q=${query}&p=1`) // Esse é o backend do Flávio
+      .get(`http://localhost:8080/v1/search?q=${query}&p=${page}`) // Esse é o backend do Flávio
       // .get(`http://localhost:5000/api/v1/search?q=${query}`)
       .then((res) => {
-        const data = res.data as ResultsInterface; // Cast the response data to your interface
+        const data = res.data as ResultsInterface;
         setResults(data.resultsList);
       })
       .catch((error) => {
@@ -48,19 +52,21 @@ export default function ResultsPage() {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Header user='rolucatelli' />
+      <Header />
       <SearchBar className='mx-16 my-8' q={query ?? undefined} />
       <ul className='px-16 pt-4'>
+        {/* {DUMMY_RESULTS.map((result) => (*/}
         {results.map((result) => (
           <li className='py-4' key={result.title}>
             <h3 className='text-primary font-bold text-xl'>
               <a href={result.url}>{result.title}</a>
             </h3>
-            <p className='text-xs'>{result.url}</p>
-            <p className='w-1/2'>{result.content}</p>
+            <p className='text-xs text-gray-700'>{result.url}</p>
+            <p className='w-1/2 text-[0.9rem]'>{result.content}</p>
           </li>
         ))}
       </ul>
+      <ResultsPagination />
     </div>
   );
 }
