@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import ResultsPagination from "@/components/ResultsPagination";
 import SearchBar from "@/components/SearchBar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import DUMMY_RESULTS from "@/dummy";
 import axios from "axios";
@@ -36,17 +37,23 @@ export default function ResultsPage() {
   const query = useQuery().get("q");
   const page = useQuery().get("p");
   const [results, setResults] = useState<ResultsInterface["resultsList"]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
+
     axios
       .get(`http://localhost:8080/v1/search?q=${query}&p=${page}`) // Esse é o backend do Flávio
-      // .get(`http://localhost:5000/api/v1/search?q=${query}`)
+      // .get(`http://localhost:5000/api/v1/search?q=${query}`)    // Esse é o backend nosso
       .then((res) => {
         const data = res.data as ResultsInterface;
         setResults(data.resultsList);
       })
       .catch((error) => {
         console.error("Error fetching results:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [query]);
 
@@ -55,16 +62,24 @@ export default function ResultsPage() {
       <Header />
       <SearchBar className='mx-16 my-8' q={query ?? undefined} />
       <ul className='px-16 pt-4'>
-        {/* {DUMMY_RESULTS.map((result) => (*/}
-        {results.map((result) => (
-          <li className='py-4' key={result.title}>
-            <h3 className='text-primary font-bold text-xl'>
-              <a href={result.url}>{result.title}</a>
-            </h3>
-            <p className='text-xs text-gray-700'>{result.url}</p>
-            <p className='w-1/2 text-[0.9rem]'>{result.content}</p>
-          </li>
-        ))}
+        {isLoading
+          ? Array.from({ length: 5 }).map((_, idx) => (
+              <li key={idx} className='py-4 space-y-2'>
+                <Skeleton className='h-6 w-1/3' />
+                <Skeleton className='h-4 w-1/4' />
+                <Skeleton className='h-4 w-1/2' />
+              </li>
+            ))
+          : // : DUMMY_RESULTS.map((result) => (
+            results.map((result) => (
+              <li className='py-4' key={result.title}>
+                <h3 className='text-primary font-bold text-xl'>
+                  <a href={result.url}>{result.title}</a>
+                </h3>
+                <p className='text-xs text-gray-700'>{result.url}</p>
+                <p className='w-1/2 text-[0.9rem]'>{result.content}</p>
+              </li>
+            ))}
       </ul>
       <ResultsPagination />
     </div>

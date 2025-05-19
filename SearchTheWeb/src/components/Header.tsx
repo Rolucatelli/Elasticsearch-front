@@ -13,7 +13,7 @@ export default function Header() {
       <div className='flex'>
         <Link
           to='/'
-          className='bg-green-500 p-3 rounded-md text-zinc-100 self-center'
+          className='bg-cyan-700 p-3 rounded-md text-zinc-100 self-center'
         >
           <Home />
         </Link>
