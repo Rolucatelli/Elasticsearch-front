@@ -4,8 +4,8 @@ import { Input } from "./ui/input";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import AlertModal from "./modals/AlertModal";
 import { useLoginStore } from "@/store/store";
+import LanguageSelector from "./LanguageSelector";
 
 interface SearchBarProps {
   q?: string;
@@ -17,7 +17,7 @@ export default function SearchBar({ q, className }: SearchBarProps) {
   const [query, setQuery] = useState(q ?? "");
   const addHistory = useLoginStore((state) => state.addHistory);
 
-  function handleSubmit(e: { preventDefault: () => void }) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (query !== "") {
       addHistory(query);
@@ -28,26 +28,25 @@ export default function SearchBar({ q, className }: SearchBarProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className={cn("flex w-full max-w-sm items-center space-x-2", className)}
+      className={cn(
+        "flex items-center rounded-full overflow-hidden border-2 border-zinc-400 w-full max-w-sm shadow-2xl ",
+        className
+      )}
     >
+      <LanguageSelector />
       <Input
-        className='bg-background'
+        className='flex-1 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none pl-2 pr-4 py-2'
         type='text'
         placeholder='Search...'
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      {q !== "" ? (
-        <Button type='submit' className='hover:cursor-pointer'>
-          <Search />
-        </Button>
-      ) : (
-        <AlertModal>
-          <Button type='submit' className='hover:cursor-pointer'>
-            <Search />
-          </Button>
-        </AlertModal>
-      )}
+      <Button
+        type='submit'
+        className='h-full rounded-r-full py-2.5 bg-lime-500 hover:bg-lime-600 text-white'
+      >
+        <Search />
+      </Button>
     </form>
   );
 }

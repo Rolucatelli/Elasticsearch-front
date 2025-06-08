@@ -70,8 +70,8 @@ export default function ResultsPage() {
                 <Skeleton className='h-4 w-1/2' />
               </li>
             ))
-          : // : DUMMY_RESULTS.map((result) => (
-            results.map((result) => (
+          : DUMMY_RESULTS.map((result) => (
+              // :results.map((result) => (
               <li className='py-4' key={result.title}>
                 <h3 className='text-primary font-bold text-xl'>
                   <a href={result.url}>{result.title}</a>
