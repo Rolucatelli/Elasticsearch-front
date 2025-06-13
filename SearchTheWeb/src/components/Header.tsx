@@ -9,7 +9,7 @@ export default function Header() {
   const username = useLoginStore((state) => state.username);
 
   return (
-    <header className='py-4 px-8 flex justify-between border-b-1 border-zinc-500'>
+    <header className='py-2 px-8 flex justify-between border-b-1 border-zinc-500'>
       <div className='flex'>
         <Link to='/'>
           <Home className='size-6 text-zinc-500' />

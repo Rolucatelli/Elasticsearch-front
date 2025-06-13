@@ -29,13 +29,13 @@ export default function SearchBar({ q, className }: SearchBarProps) {
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "flex items-center rounded-full overflow-hidden border-2 border-zinc-400 w-full max-w-sm shadow-2xl ",
+        "flex items-center rounded-full overflow-hidden border-2 border-zinc-400 w-full max-w-sm ",
         className
       )}
     >
       <LanguageSelector />
       <Input
-        className='flex-1 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none pl-2 pr-4 py-2'
+        className='flex-1 dark:bg-background border-none focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none pl-2 pr-4 py-2'
         type='text'
         placeholder='Search...'
         value={query}
